@@ -348,6 +348,14 @@ def test_show_multiple_commits(tmp_dir, scm, dvc, exp_stage):
     assert set(results.keys()) == expected
 
 
+def test_show_annotated_tag(tmp_dir, scm, dvc):
+    tmp_dir.scm_gen("file", "file", "commit")
+    scm.tag(["-a", "foo", "-m", ""])
+    results = dvc.experiments.show(all_tags=True)
+    rev = scm.get_rev()
+    assert results[rev]["baseline"]["data"]["name"] == "foo"
+
+
 def test_show_sort(tmp_dir, scm, dvc, exp_stage, caplog):
     with caplog.at_level(logging.ERROR):
         assert main(["exp", "show", "--no-pager", "--sort-by=bar"]) != 0
