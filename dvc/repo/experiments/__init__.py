@@ -98,6 +98,7 @@ class Experiments:
         self.scm_lock = make_lock(
             os.path.join(self.repo.tmp_dir, "exp_scm_lock"),
             tmp_dir=self.repo.tmp_dir,
+            harlink_lock=repo.config["core"].get("hardlink_lock", False)
         )
 
     @property
